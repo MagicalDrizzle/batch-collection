@@ -1,6 +1,6 @@
 These files all require BusyBox ~~because i'm too stupid~~: https://frippery.org/busybox/
 
-1. `dupe.cmd`: Let you see the unique lines a file has, compared to another file.  
+1. `dupe.cmd`: Lets you see the unique lines a file has, compared to another file.  
 Syntax: `dupe.cmd a.txt b.txt`  
  - `a.txt`: The file you want to see unique lines of.
  - `b.txt`: The file containing lines.
@@ -22,12 +22,13 @@ cfdfdfd
 12.45
 1
 ```
- - Result:
+
+Result:
 ```
 -- a.txt
 2.2455
 cfdfdfd
 ```
 
-2. `just-domain.cmd`: Turn a `hosts` file into an website/IP list file.  
+2. `just-domain.cmd`: Turns a `hosts` file into an website/IP list file.  
 It basically automates "removes 127.0.0.1 and 0.0.0.0 globally" for you.
