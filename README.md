@@ -3,7 +3,8 @@ These files all require BusyBox ~~because i'm too stupid~~: https://frippery.org
 1. `dupe.cmd`: Let you see the unique lines a file has, compared to another file.  
 Syntax: `dupe.cmd a.txt b.txt`  
  - `a.txt`: The file you want to see unique lines of.
- - `b.txt`: The file containing lines.  
+ - `b.txt`: The file containing lines.
+
 Example:
  - `a.txt`:
 ```
