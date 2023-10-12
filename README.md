@@ -29,5 +29,5 @@ cfdfdfd
 cfdfdfd
 ```
 
-2. `just-domain.cmd`: Turn a `hosts` file into an website/IP list file.
+2. `just-domain.cmd`: Turn a `hosts` file into an website/IP list file.  
 It basically automates "removes 127.0.0.1 and 0.0.0.0 globally" for you.
