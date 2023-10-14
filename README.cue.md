@@ -1,2 +1,2 @@
-`cue.cmd`: Created to replace `.flac` with `.ogg` in my CUE files, but probably actually is a general find-and-replace script.
+`cue.cmd`: Created to replace `.flac` with `.ogg` in my CUE files, but probably actually is a general find-and-replace script.  
 (Just change the `dir` command to list the files you want and change the find-and-replace part in `sed`)

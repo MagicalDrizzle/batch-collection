@@ -1,6 +1,6 @@
-`timecmd.cmd`: A `time` clone for Windows.
-Not actually my creation, see https://stackoverflow.com/a/6209392
-This file will measure the time it takes to complete a command. Just put `timecmd.cmd` before your command.
+`timecmd.cmd`: A `time` clone for Windows.  
+Not actually my creation, see https://stackoverflow.com/a/6209392  
+This file will measure the time it takes to complete a command. Just put `timecmd.cmd` before your command.  
 Example: 
 ```
 >timecmd tree /F
