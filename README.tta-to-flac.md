@@ -1,0 +1,2 @@
+`tta-to-flac.cmd`: Created to batch convert `.tta` audio files to `.flac` ones, but probably is a `ffmpeg`-powered """batch multimedia converter.""" 
+(Change the `.tta` part to the extension of the files you want to convert, and change the `ffmpeg` command to what you need)

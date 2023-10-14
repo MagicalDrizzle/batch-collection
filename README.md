@@ -1,34 +1,3 @@
+A little place for all thead batch files I wrote (read: copied from superuser/SO and tutorials).
 These files all require BusyBox ~~because i'm too stupid~~: https://frippery.org/busybox/
-
-1. `dupe.cmd`: Lets you see the unique lines a file has, compared to another file.  
-Syntax: `dupe.cmd a.txt b.txt`  
- - `a.txt`: The file you want to see unique lines of.
- - `b.txt`: The file containing lines.
-
-Example:
- - `a.txt`:
-```
-1
-4
-2.2455
-cfdfdfd
-9
-```
- - `b.txt`:
-```
-3
-9
-4
-12.45
-1
-```
-
-Result:
-```
--- a.txt
-2.2455
-cfdfdfd
-```
-
-2. `just-domain.cmd`: Turns a `hosts` file into an website/IP list file.  
-It basically automates "removes 127.0.0.1 and 0.0.0.0 globally" for you.
+See the respective README files for instructions.
