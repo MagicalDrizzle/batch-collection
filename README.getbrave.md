@@ -6,5 +6,6 @@ Create a `updater` directory in the same directory as `brave-portable.exe`, and 
 └── updater  
     ├── busybox.exe  
     └── getbrave.cmd  
-Requires:
+Requires:  
 - [BusyBox](https://frippery.org/files/busybox/busybox.exe) (you can find-and-replace the `busybox wget` part to any downloader you want).  
+
