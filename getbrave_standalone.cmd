@@ -1,5 +1,30 @@
 @echo off
 setlocal enabledelayedexpansion
+where /q busybox
+if !errorlevel! neq 0 (
+	echo ^> BusyBox not found^^!
+	choice /C YN /M "> Do you wish to download BusyBox automatically?"
+	if !errorlevel! equ 2 (
+		echo ^> Download BusyBox here: https://frippery.org/files/busybox/busybox.exe
+		echo ^> Manually put busybox.exe in either the directory containing this script, or your PATH.
+		goto end
+	) else (
+		echo ^> Downloading BusyBox...
+		curl https://frippery.org/files/busybox/busybox.exe -o busybox.exe
+	)
+)
+
+:: First run
+if not exist chrome_proxy.exe (
+	choice /C YN /M "> Brave Browser not found^! Download?"
+	if !errorlevel! equ 1 (
+		set FIRSTRUN=true
+		goto start
+	) else (
+		goto end
+	)
+)
+
 :start
 echo Select channel:
 echo [1] Release
@@ -32,8 +57,13 @@ for /F "usebackq" %%i in (
 	set REMOTEVER=%%i
 )
 
+if "%FIRSTRUN%"=="true" (
+	echo ^> Downloading Brave Browser v%REMOTEVER%...
+	goto :Download
+)
+ 
 for /F "usebackq" %%k in (
-	`dir ..\app /B /A:D ^| busybox grep -Eo "[0-9]+\.[0-9]+\.[0-9]+$"`
+	`dir /B /A:D ^| busybox grep -Eo "[0-9]+\.[0-9]+\.[0-9]+$"`
 ) do (
 	set LOCALVER=%%k
 )
@@ -70,8 +100,16 @@ if %LOCALVER% == %REMOTEVER% (
 
 :Download
 busybox wget https://github.com/brave/brave-browser/releases/download/v%REMOTEVER%/brave-v%REMOTEVER%-win32-x64.zip -O brave-v%REMOTEVER%-win32-x64_%CHANNEL%.zip
-busybox unzip -o -d app brave-v%REMOTEVER%-win32-x64_%CHANNEL%.zip
-rmdir /S /Q ..\app && move app .. && del brave-v%REMOTEVER%-win32-x64_%CHANNEL%.zip
+if not defined FIRSTRUN (
+	for /D %%k in (*.%LOCALVER%) do rmdir /S /Q %%k
+	del brave.exe chrome_proxy.exe
+)
+busybox unzip -o brave-v%REMOTEVER%-win32-x64_%CHANNEL%.zip
+del brave-v%REMOTEVER%-win32-x64_%CHANNEL%.zip
+if not exist brave_portable.cmd (
+	echo start "" brave.exe --user-data-dir=profile --no-default-browser-check --disable-machine-id --disable-encryption-win > brave_portable.cmd
+)
+echo %CHANNEL% > update_channel.txt
 goto end
 
 :end
