@@ -1,5 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
+if exist busybox.exe goto first
 where /q busybox
 if !errorlevel! neq 0 (
 	echo ^> BusyBox not found^^!
@@ -15,16 +16,19 @@ if !errorlevel! neq 0 (
 )
 
 :: First run
+:first
 if not exist chrome_proxy.exe (
 	choice /C YN /M "> Brave Browser not found^! Download?"
 	if !errorlevel! equ 1 (
 		set FIRSTRUN=true
 		goto start
-	) else (
+	) else if !errorlevel! equ 2 (
 		goto end
+	) else (
+		echo something terrible happened. debug: errorlevel=!errorlevel!
 	)
 )
-
+	
 :start
 echo Select channel:
 echo [1] Release
@@ -42,17 +46,31 @@ goto :start
 
 :Release
 set CHANNEL=release
-goto GitHub
+goto Arch
 :Beta
 set CHANNEL=beta
-goto GitHub
+goto Arch
 :Nightly
 set CHANNEL=nightly
-goto GitHub
+goto Arch
+
+:Arch
+choice /C 12 /M "> Download 64bit or 32bit build? 1=64bit, 2=32bit"
+if !errorlevel! equ 1 (
+	set BRAVE_ARCH=x64
+	set BRAVE_ARCH_GH=x64
+	goto GitHub
+) else if !errorlevel! equ 2 (
+	set BRAVE_ARCH=x86
+	set BRAVE_ARCH_GH=ia32
+	goto GitHub
+) else (
+	echo something terrible happened. debug: errorlevel=!errorlevel!
+)
 
 :GitHub
 for /F "usebackq" %%i in (
-	`busybox wget -q https://versions.brave.com/latest/%CHANNEL%-windows-x64.version -O -`
+	`busybox wget -q https://versions.brave.com/latest/%CHANNEL%-windows-%BRAVE_ARCH%.version -O -`
 ) do (
 	set REMOTEVER=%%i
 )
@@ -99,16 +117,17 @@ if %LOCALVER% == %REMOTEVER% (
 )
 
 :Download
-busybox wget https://github.com/brave/brave-browser/releases/download/v%REMOTEVER%/brave-v%REMOTEVER%-win32-x64.zip -O brave-v%REMOTEVER%-win32-x64_%CHANNEL%.zip
+busybox wget https://github.com/brave/brave-browser/releases/download/v%REMOTEVER%/brave-v%REMOTEVER%-win32-%BRAVE_ARCH_GH%.zip -O brave-v%REMOTEVER%-win32-%BRAVE_ARCH_GH%_%CHANNEL%.zip
 if not defined FIRSTRUN (
 	for /D %%k in (*.%LOCALVER%) do rmdir /S /Q %%k
 	del brave.exe chrome_proxy.exe
 )
-busybox unzip -o brave-v%REMOTEVER%-win32-x64_%CHANNEL%.zip
-del brave-v%REMOTEVER%-win32-x64_%CHANNEL%.zip
+busybox unzip -o brave-v%REMOTEVER%-win32-%BRAVE_ARCH_GH%_%CHANNEL%.zip
+del brave-v%REMOTEVER%-win32-%BRAVE_ARCH_GH%_%CHANNEL%.zip
 if not exist brave_portable.cmd (
 	echo start "" brave.exe --user-data-dir=profile --no-default-browser-check --disable-machine-id --disable-encryption-win > brave_portable.cmd
 )
+echo Launch brave_portable.cmd^^!
 echo %CHANNEL% > update_channel.txt
 goto end
 
