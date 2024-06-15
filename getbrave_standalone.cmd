@@ -147,6 +147,7 @@ if exist brave-v%REMOTEVER%-win32-%BRAVE_ARCH_GH%_%CHANNEL%.zip (
 		goto Download_Success
 	) else (
 		echo ^> Hash mismatch^^! Download probably got interrupted^^!
+		del brave-v%REMOTEVER%-win32-%BRAVE_ARCH_GH%_%CHANNEL%.zip
 		goto end
 	)
 ) else (
