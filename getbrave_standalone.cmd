@@ -27,7 +27,7 @@ if not exist chrome_proxy.exe (
 	)
 )
 
-tasklist | busybox grep -F brave.exe >nul
+tasklist | findstr /C:brave.exe >nul
 if !errorlevel! equ 0 (
 	echo ^> Brave is running^^! Continue only if you are certain this specific Brave is not in use.
 	choice /C YN /M "> Do you wish to continue?"
@@ -84,7 +84,7 @@ if "%FIRSTRUN%"=="true" (
 	echo ^> Downloading Brave Browser v%REMOTEVER%...
 	goto :Download
 )
- 
+
 for /F "usebackq" %%b in (
 	`dir /B /A:D ^| busybox grep -Eo "[0-9]+\.[0-9]+\.[0-9]+$"`
 ) do (
