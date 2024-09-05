@@ -2,11 +2,11 @@
 setlocal enabledelayedexpansion
 :start
 echo Select channel:
-echo [1] Release
-echo [2] Beta (default)
+echo [1] Release (default)
+echo [2] Beta
 echo [3] Nightly
 set /P _input="> "
-if not defined _input set _input=2
+if not defined _input set _input=1
 echo:
 if "%_input%"=="1" goto :Release
 if "%_input%"=="2" goto :Beta
