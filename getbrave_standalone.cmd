@@ -1,8 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
 if exist busybox.exe goto first
-where /q busybox
-if !errorlevel! neq 0 (
+busybox >nul 2>&1
+if !errorlevel! equ 9009 (
 	echo ^> BusyBox not found^^!
 	choice /C YN /M "> Do you wish to download BusyBox automatically?"
 	if !errorlevel! equ 2 (
