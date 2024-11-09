@@ -41,15 +41,35 @@ echo Select channel:
 echo [1] Release (default)
 echo [2] Beta
 echo [3] Nightly
+echo [4] Check upstream versions
 set /P _input="> "
 if not defined _input set _input=1
 echo:
 if "%_input%"=="1" goto :Release
 if "%_input%"=="2" goto :Beta
 if "%_input%"=="3" goto :Nightly
+if "%_input%"=="4" goto :CheckVer
 echo:
 echo I couldn't understand you, pick one of the options
 goto :start
+
+:CheckVer
+for /F "usebackq" %%x in (
+	`busybox wget -q https://versions.brave.com/latest/release-windows-x64.version -O -`
+) do (
+	echo Release: v%%x
+)
+for /F "usebackq" %%y in (
+	`busybox wget -q https://versions.brave.com/latest/beta-windows-x64.version -O -`
+) do (
+	echo Beta:    v%%y
+)
+for /F "usebackq" %%z in (
+	`busybox wget -q https://versions.brave.com/latest/nightly-windows-x64.version -O -`
+) do (
+	echo Nightly: v%%z
+)
+goto end
 
 :Release
 set CHANNEL=release
@@ -164,7 +184,7 @@ if not defined FIRSTRUN (
 busybox unzip -o brave-v%REMOTEVER%-win32-%BRAVE_ARCH_GH%_%CHANNEL%.zip
 del brave-v%REMOTEVER%-win32-%BRAVE_ARCH_GH%_%CHANNEL%.zip
 if not exist brave_portable.cmd (
-	echo start "" brave.exe --flag-switches-begin --user-data-dir=profile --no-default-browser-check --disable-machine-id --disable-encryption-win --flag-switches-end> brave_portable.cmd
+	echo start "" brave.exe --user-data-dir=profile --no-default-browser-check --disable-breakpad --disable-features=PrintCompositorLPAC --enable=features=brave-override-download-danger-level> brave_portable.cmd
 )
 echo # Launch brave_portable.cmd^^!
 echo # This file contains the update channel this version of Brave is on.> update_channel.txt
