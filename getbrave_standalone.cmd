@@ -187,12 +187,12 @@ if not exist brave_portable.cmd (
 	echo start "" brave.exe --user-data-dir=profile --no-default-browser-check --disable-breakpad --disable-features=PrintCompositorLPAC --enable=features=brave-override-download-danger-level> brave_portable.cmd
 )
 echo # Launch brave_portable.cmd^^!
-echo # This file contains the update channel this version of Brave is on.> update_channel.txt
-echo # Don't put anything here. It will be overwritten every update.> update_channel.txt
-echo %CHANNEL%> update_channel.txt
+echo # This file contains the update channel this version of Brave is on.>> update_channel.txt
+echo # Don't put anything here. It will be overwritten every update.>> update_channel.txt
+echo %CHANNEL%>> update_channel.txt
 goto end
 
 :end
 endlocal
-echo:
+echo Finished.
 pause
