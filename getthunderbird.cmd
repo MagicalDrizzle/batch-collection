@@ -56,6 +56,9 @@ if defined _versionvalue (
 		set _version=%%i
 	)
 )
+for /f "tokens=1 delims=." %%i in ("%_version%") do (
+	set _versionmajor=%%i
+)
 
 :getlang
 echo Choose language and press Enter (leave blank for English):
@@ -87,12 +90,20 @@ if "%_archvalue%"=="2" (
 )
 if "%_archvalue%"=="3" (
 	set _arch=linux-x86_64
-	set _name=thunderbird-%_version%.tar.bz2
+	if %_versionmajor% geq 135 (
+		set _name=thunderbird-%_version%.tar.xz
+	) else (
+		set _name=thunderbird-%_version%.tar.bz2
+	)
 	set _namenightly=thunderbird-%_version%.%_lang%.linux-x86_64.tar.xz
 )
 if "%_archvalue%"=="4" (
 	set _arch=linux-i686
-	set _name=thunderbird-%_version%.tar.bz2
+	if %_versionmajor% geq 135 (
+		set _name=thunderbird-%_version%.tar.xz
+	) else (
+		set _name=thunderbird-%_version%.tar.bz2
+	)
 	set _namenightly=thunderbird-%_version%.%_lang%.linux-i686.tar.xz
 )
 if "%_archvalue%"=="5" (
